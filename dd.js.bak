@@ -1,0 +1,140 @@
+$(function() {
+
+	var TAILOFFSET = 380;
+	var HEADOFFSET = -280;
+	
+	var tree = new Tree();
+	
+	
+	for (var i = 0; i < 1; i++){
+		newBox(tree);
+		newArrow();
+	}
+	
+	function newBox(tree, x, y){
+		var box = new Box();
+		var id = tree.addBox(box);
+	
+		var html = '<div class="positionable draggable box"><div class="top">Move</div><div class="left">Head</div><div class="center"><input type="hidden" value=' + id +  '><input type="text" /></div><div class="right">Tail</div><div class="bottom">Info</div></div>';
+		
+		var element = $("#body").append(html);
+		
+		$("#body .draggable:last-child").draggable();
+		
+		if(isNaN(x)){
+			$("#body .draggable:last-child").css("left", "150px");
+		}else{
+			$("#body .draggable:last-child").css("left", x);
+		}
+			
+		if(isNaN(y)){
+			$("#body .draggable:last-child").css("top", "150px");
+		}else{
+			$("#body .draggable:last-child").css("top", y);
+		}
+		
+		$("#body .draggable:last-child .right").click(function(){
+			var top = $(this).parent().css("top");
+			var top = new Number (top.replace("px", ""));
+			
+			var left = $(this).parent().css("left");
+			var left = new Number (left.replace("px", ""));
+			
+			newBox(tree, left.valueOf() + TAILOFFSET,  (top.valueOf() + 150));
+			newArrow($(this).parent(), $("#body .box:last-child"));
+		});
+		
+		$("#body .draggable:last-child .left").click(function(){
+			var top = $(this).parent().css("top");
+			var top = new Number (top.replace("px", ""));
+			
+			var left = $(this).parent().css("left");
+			var left = new Number (left.replace("px", ""));
+			
+			newBox(tree, left.valueOf() + HEADOFFSET,  top.valueOf());
+		});
+	}
+	
+	function newArrow(source, destination){
+		
+		var LEFTOFFSET = 195;
+		var WIDTHTAB = 24;
+		var TOPOFFSET = 35;
+		
+		var left = "0px";
+		var top = "0px";
+		var width  = "100px";
+		var angle = "0deg";
+		
+		//If we have a source and a destinatoin, we can calculate how the new arrow should be positioned in the browser
+		if ((source.hasClass("box")) && destination.hasClass("box")){
+			//Calculate the origin of the arrow (notice the stripping of "px" out of the string before we can do math)
+			left = source.css("left");
+			left = new Number (left.replace("px", ""));
+			left = left + LEFTOFFSET;
+			left = left + "px"
+			
+			top = source.css("top");
+			top = new Number (top.replace("px", ""));
+			top = top + TOPOFFSET;
+			top = top + "px";
+			
+			
+			//Calculate the lenght of the arrow
+			var sourceTop = source.css("top");
+			var destTop =  destination.css("top");
+			
+			sourceTop = new Number (sourceTop.replace("px", ""));
+			destTop = new Number (destTop.replace("px", ""));
+			
+			var a = (destTop + TOPOFFSET) - (sourceTop + TOPOFFSET);
+			
+			var sourceLeft = source.css("left");
+			var destLeft = destination.css("left");
+			
+			sourceLeft = new Number (sourceLeft.replace("px", ""));
+			destLeft = new Number (destLeft.replace("px", ""));
+			
+			var b = (destLeft - WIDTHTAB) -  (sourceLeft + LEFTOFFSET);
+			
+			//Pythagorean theorem
+			var c = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
+			
+			width =  c;
+			
+
+			//Calculate the angle of the arrow
+			var angle = Math.atan(a / b);
+			//From radials to degrees
+			angle =  angle * (180/Math.PI);
+			alert("angle: " + angle);
+			//$("#body .arrow:last-child").css("-webkit-transform: rotate", angle + "deg");
+			
+		}
+		
+		var arrow = new Arrow();
+		
+		arrow.setA();
+		arrow.setValue();
+		arrow.setB();
+		arrow.setDirection();
+		
+		var id = tree.addArrow(arrow);
+		
+		var html = '<div class="positionable draggable arrow"><input type="hidden" value=' + id +  '></div>';
+		
+		var element = $("#body").append(html);
+		
+		$("#body .arrow:last-child").css("left", left);
+		
+			alert($("#body .arrow:last-child").css("left"));
+		
+		$("#body .arrow:last-child").css("top", top);
+		$("#body .arrow:last-child").css("width", width);
+		//$("#body .arrow:last-child").css("-webkit-transform: rotate", angle + "deg");
+		
+			alert($("#body .arrow:last-child").css("left"));
+		
+	}
+	
+});

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+		<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="js/jquery.touchSwipe-1.2.5.js"></script>
+		
+		
+		<title>touchSwipe</title>
+		
+		<style>
+		
+			#test
+			{
+				width:500px;
+				height:300px;
+				background:#FF00FF;
+			}
+			
+			#info
+			{
+				width:500px;
+				
+			}
+			
+		
+		</style>
+		
+	</head>
+	
+<body>		
+		<script>
+			
+			
+			//Assign handlers to the simple direction handlers.
+			var swipeOptions=
+			{
+				swipe:swipe,
+				threshold:0
+			}
+			
+			$(function()
+			{			
+				//Enable swiping...
+				$("#test").swipe( swipeOptions );
+				
+				
+				
+			});
+		
+			//Swipe handlers.
+			//The only arg passed is the original touch event object			
+			function swipe(event, direction)
+			{
+				$("#test").text("You swiped " + direction );
+			}
+			
+			
+		</script>
+		
+
+		
+		<div id="info" >
+			<b><a href="http://labs.skinkers.com/touchSwipe/">TouchSwipe</a> Demo - to be viewed on touch based devices</b><br/>
+			<br/>
+			<b>Basics 1 - swipe</b>
+			<br>By using the <i>swipe</i> handler, you can detect all 4 directions, or use the individual methods <i>swipeLeft</i>, <i>swipeRight</i>, <i>swipeUp</i>, <i>swipeDown</i></br>
+		</div>
+		<br/>
+		<a href="basics_2.php"/>Next</a>
+		
+		<div id="test">Swipe me</div>
+		
+		<a href="basics_2.php"/>Next</a>
+		
+		
+	</body>
+</html>

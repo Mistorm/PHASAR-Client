@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PHASAR - High-Accuracy Retrieval</title>
+		<link rel="stylesheet" type="text/css" href="phasar.css" />
+		<script src="jquery-1.7.1.js"></script>
+		<script src="jquery-ui.js"></script>
+		<script src="jquery.touchSwipe-1.2.5.js"></script>
+		<script src="dd.js"></script>
+		<script src="tree.js"></script>
+		<script src="suggestionlist.js"></script>
+		<script src="box.js"></script>
+		<script src="arrow.js"></script>
+	</head>
+	<body>
+		<div id="banner">
+			<img src="phasar.gif" />
+			<div>
+				PHASAR - High-Accuracy Retrieval
+			</div>
+		</div>
+		<div id="header">
+			<div class="item">
+				Year:
+				<input type="text" class="textfield" />
+			</div>
+			<div class="item">
+				Query Mode:
+				<select>
+					<option value="document">Document</option>
+					<option value="paragraph">Paragraph</option>
+					<option value="sentence">Sentence</option>
+				</select>
+			</div>
+			<div class="item">
+				Browsing Mode:
+				<select>
+					<option value="document">Document</option>
+					<option value="paragraph">Paragraph</option>
+					<option value="sentence">Sentence</option>
+				</select>
+			</div>
+			<input id="resultToggle" input type="button" value="Submit"  />
+		</div>
+		<div id="query">
+		</div>
+		<div id="result">
+			<img id="ajaxIndicator" src="ajax-loader.gif" />
+		</div>
+	</body>
+</html>
