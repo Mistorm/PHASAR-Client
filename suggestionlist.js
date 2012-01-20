@@ -14,11 +14,11 @@ function SuggestionList(x, y, list, destination, id){
 		var j;
 		var html =  this.htmlStart;
 		
-		j = list.suggestion.length;
+		j = list.length;
 		
 		
 		for(var i = 0; i < j; i++){
-			html+= '<li class="suggestion"><div class="count">' + list.suggestion[i].count + '</div><div class="value">' + list.suggestion[i].value + "</div></li>";
+			html+= '<li class="suggestion"><div class="count">' + '?' + '</div><div class="value">' + list[i] + "</div></li>";
 		}
 		
 		//Add and hidden input tag to retrace the arrow/box we are getting the input for.

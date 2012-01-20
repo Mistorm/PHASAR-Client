@@ -165,8 +165,30 @@ function Arrow(){
 			var arrow = $(this).parent().parent()[0];
 			var offset = $("#" + arrow.id +" input").offset();
 			
-			var data = jQuery.parseJSON('{"suggestion": [{"value": "OBJ","count": "173"},{"value": "vinden","count": "53"},{"value": "willen","count": "14"}]}');
-			var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
+			var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
+			
+			var baseQuery = jQuery.tree.getJSON();
+			
+			
+			$.ajax({
+				type: 'POST',
+				crossDomain:true,
+				url: url,
+				dataType:'json',
+				data: json,
+				context: this,
+				success: this.drawSuggestionList,
+				error: function (xhr) {
+					alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+				}
+			});
+			
+			//var data = jQuery.parseJSON('{"suggestion": [{"value": "OBJ","count": "173"},{"value": "vinden","count": "53"},{"value": "willen","count": "14"}]}');
+			//var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
 		});
+	}
+	
+	this.drawSuggestionList = function(data){
+			var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
 	}
 }

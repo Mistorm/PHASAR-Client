@@ -121,6 +121,30 @@ function Box(){
 		this.newRelatorValue = value;
 	}
 	
+	this.clearExtensionVariables = function(){
+		this.newExtensionDirection = null;
+		this.newHeadValue = null;
+		this.newTailValue = null;
+		this.newRelatorValue = null;
+	}
+	
+	this.drawSuggestionList = function(data){
+		//Add menu for picking new arrow value
+		if(this.newRelatorValue != null){
+			if(this.newExtensionDirection == "head"){
+				var list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, this.newExtensionDirection, this.getId());
+			}else{
+				var list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, this.newExtensionDirection, this.getId());
+			}
+		}else{
+			//Add menu for picking new arrow value
+			if(this.newExtensionDirection == "head"){
+				var list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, "arrow", this.getId());
+			}else{
+				var list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, "arrow", this.getId());
+			}
+		}
+	}
 	//this.addHead = function(){
 		//Get the old JSON query before doing anything else
 		//var oldQuery = jQuery.tree.getJSON();
@@ -189,15 +213,15 @@ function Box(){
 		//Get the base JSON query before doing anything else
 		var baseQuery = jQuery.tree.getJSON();
 		
+		//Check if  we know the new value for the relator.
 		if(this.newRelatorValue != null){
+			//We do so now we can check for the box-to-be-added
 			if(this.newHeadValue != null && this.newExtensionDirection == "head"){
 				//We have all the info we need to extend the box with a head
 				
-				//alert("new triple: " + this.newHeadValue + " " + this.newRelatorValue + " " + this.value);
-				
 				//Create a new box for the tail, using the position of the head box and the tail offset
 				var newBox = jQuery.tree.newBox();
-						
+				
 				newBox.setX(this.getX() + this.HEADOFFSETX);
 				newBox.setY(this.getY() + this.HEADOFFSETY);
 				newBox.setValue(this.newHeadValue);
@@ -210,19 +234,16 @@ function Box(){
 				arrow.setB(this);
 				arrow.setValue(this.newRelatorValue);
 				
+				//Draw the box and arrow
 				newBox.draw();
 				arrow.draw();
 				arrow.refresh();
 				
-				this.newExtensionDirection = null;
-				this.newHeadValue = null;
-				this.newTailValue = null;
-				this.newRelatorValue = null;
+				//Clear the variables used during the extention
+				this.clearExtensionVariables();
 			}
 			else if(this.newTailValue != null && this.newExtensionDirection == "tail"){
 				//We have all the info we need to extend the box with a tail
-				
-				//alert("new triple: " + this.value + " " + this.newRelatorValue + " " + this.newTailValue);
 				
 				//Create a new box for the tail, using the position of the head box and the tail offset
 				var newBox = jQuery.tree.newBox();
@@ -239,16 +260,16 @@ function Box(){
 				arrow.setB(newBox);
 				arrow.setValue(this.newRelatorValue);
 				
+				//Draw the box and arrow
 				newBox.draw();
 				arrow.draw();
 				arrow.refresh();
 				
-				this.newExtensionDirection = null;
-				this.newHeadValue = null;
-				this.newTailValue = null;
-				this.newRelatorValue = null;
+				//Clear the variables used during the extention
+				this.clearExtensionVariables();
 			
-			}else{
+			}else{//We have a new relator value, but no new box value.
+				//Create the extention past of the JSON suggestion part
 				if(this.newExtensionDirection == "head"){
 					var extension =  '{"a":"*", "relator":"'  + this.newRelatorValue + '", "b":"' + this.value + '"}';
 				}else if(this.newExtensionDirection == "tail"){
@@ -258,18 +279,20 @@ function Box(){
 				var json = '{"baseQuery":'  + baseQuery + ',';
 				json = json + '"extension":' + extension + '}';
 				
-				//alert(json);
-				
-				//TODO: code to request data from mediator
-				var data = jQuery.parseJSON('{"suggestion": [{"value": "Ik","count": "173"},{"value": "hij","count": "53"},{"value": "wij","count": "14"},{"value": "andere","count": "124"},{"value": "men","count": "54"},{"value": "dat","count": "434"},{"value": "ons","count": "173"},{"value": "hij","count": "53"},{"value": "wij","count": "14"},{"value": "andere","count": "124"},{"value": "men","count": "54"},{"value": "dat","count": "434"}]}');
-					
-				
-				//Add menu for picking new arrow value
-				if(this.newExtensionDirection == "head"){
-					var list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, this.newExtensionDirection, this.getId());
-				}else{
-					var list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, this.newExtensionDirection, this.getId());
-				}
+				var url = 'http://localhost:9998/mediator/query/suggestion/box';
+		
+				$.ajax({
+					type: 'POST',
+					crossDomain:true,
+					url: url,
+					dataType:'json',
+					data: json,
+					context: this,
+					success: this.drawSuggestionList,
+					error: function (xhr) {
+						alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+					}
+				});
 			}
 		}else{
 
@@ -282,43 +305,22 @@ function Box(){
 			var json = '{"baseQuery":'  + baseQuery + ',';
 			json = json + '"extension":' + extension + '}';
 			
-			//alert(json);
-			
-			//TODO: code to request data from mediator
-			
-			var data = jQuery.parseJSON('{"suggestion": [{"value": "SUBJ","count": "173"},{"value": "OBJ","count": "53"},{"value": "REL","count": "14"}]}');
-			
-			//Add menu for picking new arrow value
-			if(this.newExtensionDirection == "head"){
-				var list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, "arrow", this.getId());
-			}else{
-				var list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, "arrow", this.getId());	
-			}
+			var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
+		
+			$.ajax({
+				type: 'POST',
+				crossDomain:true,
+				url: url,
+				dataType:'json',
+				data: json,
+				context: this,
+				success: this.drawSuggestionList,
+				error: function (xhr) {
+					alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+				}
+			});
 		}
 	}
-	
-	
-	//this.addTail = function(){			
-	//	//Create a new box for the tail, using the position of the head box and the tail offset
-	//	var newBox = jQuery.tree.newBox();
-	//			
-	//	newBox.setX(this.getX() + this.TAILOFFSETX);
-	//	newBox.setY(this.getY() + this.TAILOFFSETY);
-	//						
-	//	newBox.draw();
-	//		
-	//	//Create a new arrow for the tail, rendering it between the boxes
-	//	var arrow = jQuery.tree.newArrow();
-	//			
-	//	arrow.setA(this);
-	//	arrow.setDirection(newBox);
-	//	arrow.setB(newBox);
-	//			
-	//	arrow.draw();
-	//			
-	//	arrow.refresh();
-	//}
-	
 	
 	this.removeMe = function (){
 		var arrow = jQuery.tree.getArrows(this);

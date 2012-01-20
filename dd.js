@@ -118,15 +118,15 @@ function drawQueryResult(data){
 	
 	var result  = "";
 	
-	if(typeof data.hit == 'undefined'){
+	if(typeof data.result == 'undefined'){
 		result  = "<div>Sorry, the query yielded no results,,,</div>";
 	}else{
-		for (i in data.hit){
+		for (i in data.result){
 			result = result + start;
-			result = result + "<div class=content>" + data.hit[i].result.content + "</div>";
+			result = result + "<div class=content>" + data.result[i].content + "</div>";
 	
-		for(j in data.hit[i].result.triples){
-				result = result + '<div class="triple">' + data.hit[i].result.triples[j] + '</div>';
+		for(j in data.result[i].triples){
+				result = result + '<div class="triple">' + data.result[i].triples[j] + '</div>';
 			}
 			result = result + end;
 		}
