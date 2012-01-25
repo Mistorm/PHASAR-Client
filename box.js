@@ -140,8 +140,10 @@ function Box(){
 			//Add menu for picking new arrow value
 			if(this.newExtensionDirection == "head"){
 				var list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, "arrow", this.getId());
-			}else{
+			}else if(this.newExtensionDirection == "tail"){
 				var list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, "arrow", this.getId());
+			}else{
+				var list = new SuggestionList(this.getX() - 20, this.getY() + 50, data, "me", "b" + this.getId());
 			}
 		}
 	}
@@ -271,9 +273,9 @@ function Box(){
 			}else{//We have a new relator value, but no new box value.
 				//Create the extention past of the JSON suggestion part
 				if(this.newExtensionDirection == "head"){
-					var extension =  '{"a":"*", "relator":"'  + this.newRelatorValue + '", "b":"' + this.value + '"}';
+					var extension =  '{"a":"*", "relator":"'  + this.newRelatorValue + '", "b":"' + this.value + '","direction":"*"}';
 				}else if(this.newExtensionDirection == "tail"){
-					var extension =  '{"a":"' + this.value + '", "relator":"' + this.newRelatorValue + '", "b":"*"}';
+					var extension =  '{"a":"' + this.value + '", "relator":"' + this.newRelatorValue + '", "b":"*","direction":"*"}';
 				}
 					
 				var json = '{"baseQuery":'  + baseQuery + ',';
@@ -297,9 +299,9 @@ function Box(){
 		}else{
 
 			if(this.newExtensionDirection == "head"){
-				var extension =  '{"a":"*", "relator":"*", "b":"' + this.value + '"}';
+				var extension =  '{"a":"*", "relator":"*", "b":"' + this.value + '","direction":"*"}';
 			}else if(this.newExtensionDirection == "tail"){
-				var extension =  '{"a":"' + this.value + '", "relator":"*", "b":"*"}';
+				var extension =  '{"a":"' + this.value + '", "relator":"*", "b":"*","direction":"*"}';
 			}
 			
 			var json = '{"baseQuery":'  + baseQuery + ',';
@@ -506,9 +508,51 @@ function Box(){
 							
 						}));
 					}else{
-						//alert("Swiped down!");
-						var data = jQuery.parseJSON('{"suggestion": [{"value": "denken","count": "173"},{"value": "vinden","count": "53"},{"value": "willen","count": "14"}]}');
-						var list = new SuggestionList(box.getX() - 20, box.getY() + 50, data, "me", "b" + box.getId());
+
+						var arrows = jQuery.tree.getArrows(box);
+						var baseQuery = jQuery.tree.getJSON();
+						
+						//Replace current value of clicked box by wild card
+						var current = '{"nr":"' + box.getId() + '", "content":"' + box.getValue() + '"}';
+						var desired =  '{"nr":"' + box.getId() + '", "content":"*"}';
+						var modQuery = baseQuery.replace(current, desired);
+						
+						if(arrows.length > 0){
+							
+							if(arrows[0].getA().getValue() == box.getValue()){
+								 if(arrows[0].getDirection() == arrows[0].getA() ){
+									var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"*"}';
+								}else if(arrows[0].getDirection() == arrows[0].getB()){
+									var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"' + arrows[0].getB().getValue() + '"}';
+								}
+							}else if(arrows[0].getB().getValue() == box.getValue()){
+								if(arrows[0].getDirection() == arrows[0].getA() ){
+									var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"' + arrows[0].getA().getValue() + '"}';
+								}else if(arrows[0].getDirection() == arrows[0].getB()){
+									var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"*"}';
+								}
+							}
+							
+							var json = '{"baseQuery":'  + baseQuery + ',';
+							json = json + '"extension":' + extension + '}';
+							
+							//alert("Debug: " + json);
+			
+							var url = 'http://localhost:9998/mediator/query/suggestion/box';
+		
+							$.ajax({
+								type: 'POST',
+								crossDomain:true,
+								url: url,
+								dataType:'json',
+								data: json,
+								context: box,
+								success: box.drawSuggestionList,
+								error: function (xhr) {
+									alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+								}
+							});
+						}
 					}
 				}
 			}

@@ -113,9 +113,9 @@ function Tree(){
 			
 			//Check for null values left by perviously removed boxes & arrows
 			if(this.arrows[j]!= null){
-				string = '{"boxA":"' + this.arrows[j].getA().getId();
+				string = '{"a":"' + this.arrows[j].getA().getId();
 				string = string + '", "relator":"' + this.arrows[j].getValue();
-				string = string + '", "boxB":"' + this.arrows[j].getB().getId();
+				string = string + '", "b":"' + this.arrows[j].getB().getId();
 				string = string + '", "direction":"' + this.arrows[j].getDirection().getId() + '"}';
 				
 				if(j != this.arrows.length - 1){

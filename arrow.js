@@ -162,13 +162,27 @@ function Arrow(){
 		
 		$("#a" + this.id + " input").click(function(){
 			
-			var arrow = $(this).parent().parent()[0];
-			var offset = $("#" + arrow.id +" input").offset();
-			
-			var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
-			
+			var arrowId = $(this).parent().parent()[0].id;
+			var arrow = jQuery.tree.getArrow(arrowId.replace("a", ""));
+			var offset = $("#" + arrowId +" input").offset();
+						
 			var baseQuery = jQuery.tree.getJSON();
+			var extension = '{"a":"' + arrow.getA().getValue() + '", "relator":"*", "b":"' + arrow.getB().getValue() + '","direction":"' + arrow.getB().getValue() +'"}';
 			
+			//Replace current value of clicked relator by wild card
+			var current = '{"a":"' + arrow.getA().getId() + '", "relator":"' + arrow.getValue() + '", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
+			var desired =  '{"a":"' + arrow.getA().getId() + '", "relator":"*", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
+			var modQuery = baseQuery.replace(current, desired);
+			
+			//alert("base: " + baseQuery);
+			//alert("mod: " + modQuery); 
+			
+			//Add wildcard triple we want a sugggestion for
+			var json = '{"baseQuery":'  + modQuery + ',';
+			json = json + '"extension":' + extension + '}';
+			
+			//Send
+			var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
 			
 			$.ajax({
 				type: 'POST',
@@ -177,11 +191,13 @@ function Arrow(){
 				dataType:'json',
 				data: json,
 				context: this,
-				success: this.drawSuggestionList,
+				success: arrow.drawSuggestionList,
 				error: function (xhr) {
 					alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
 				}
 			});
+			
+			//proccess
 			
 			//var data = jQuery.parseJSON('{"suggestion": [{"value": "OBJ","count": "173"},{"value": "vinden","count": "53"},{"value": "willen","count": "14"}]}');
 			//var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
@@ -189,6 +205,9 @@ function Arrow(){
 	}
 	
 	this.drawSuggestionList = function(data){
-			var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
+		var arrowId = $(this).parent().parent()[0].id;
+		var offset = $("#" + arrowId +" input").offset();
+		
+		var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrowId);	
 	}
 }
