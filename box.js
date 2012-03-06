@@ -466,24 +466,28 @@ function Box(){
 				var id = new Number (id.replace("b", ""));
 				var box  =  jQuery.tree.getBox(id);
 				
-				var x = event.pageX - jQuery.mouseDownX;
-				var y = event.pageY - jQuery.mouseDownY;
+				var boxTop = this.offsetTop;
+				var boxBottom = this.offsetTop + this.offsetHeight;
+				var boxLeft = this.offsetLeft;
+				var boxRight = this.offsetLeft + this.offsetWidth;
 				
-				if((Math.abs(x) > 30) &&(Math.abs(y) < 10)){
-					if(x < 0){
-						//alert("Swiped left!");
+				var x = event.pageX;
+				var y = event.pageY;
+				
+				if((y > boxTop) && (y < boxBottom)){
+					if(x < boxLeft){
+						//alert("Swipe left");
 						box.extend("head");
-					}else{
-						//alert("Swiped right!");
+					}
+					if(x > boxRight){
+						//alert("Swipe right");
 						box.extend("tail");
-						//box.addTail();
 					}
 				}
 				
-				if((Math.abs(y) > 30) &&(Math.abs(x) < 10)){
-					if(y < 0){
-						//alert("Swiped up!");
-						//$(".draggable").draggable("enable");
+				if((x < boxRight) && (x > boxLeft)){
+					if(y < boxTop){
+						//alert("Swipe up");
 						var box = $("#b" + this.id);
 						$(this).addClass("draggable");
 						$("#query").on("mousemove", (function(event){
@@ -507,8 +511,9 @@ function Box(){
 							}
 							
 						}));
-					}else{
-
+					}
+					if(y > boxBottom){
+						//alert("Swipe down");
 						var arrows = jQuery.tree.getArrows(box);
 						var baseQuery = jQuery.tree.getJSON();
 						
