@@ -1,143 +1,143 @@
 html, body {
-	height: 100%; 
-	width: 100%;
-	margin: 0;
+    height: 100%; 
+    width: 100%;
+    margin: 0;
 }
 
 body{
-	font-family: "sans-serif";
-	font-size: 0.8em;
-	background-color:#ffffff;
+    font-family: "sans-serif";
+    font-size: 0.8em;
+    background-color:#ffffff;
 }
 
 #banner{
-	height: 10%;
-	width: 100%;
-	background-color: #ffffff;
+    height: 10%;
+    width: 100%;
+    background-color: #ffffff;
 }
-	
+
 #banner div{
-	position: relative;
-	top: -25px;
-	left: 25px;
-	display:inline;
-	font-size: 2.0em;
+    position: relative;
+    top: -25px;
+    left: 25px;
+    display:inline;
+    font-size: 2.0em;
 }
 
 #header{
-	background-color:#cccccc;
-	height: 5%;
-	width: 100%;
+    background-color:#cccccc;
+    height: 5%;
+    width: 100%;
 }
 
 #header .item{
-	position: relative;
-	float: left;
-	height: 70%;
-	margin-left: 1em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+    position: relative;
+    float: left;
+    height: 70%;
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 img{
-	position: relative;
-	height: 70%;
-	padding: 1em;
+    position: relative;
+    height: 70%;
+    padding: 1em;
 }
 
 .item select, .item input{
-	width: 8em;
+    width: 8em;
 }
 
 .item .textfield{
-	width: 6em;
+    width: 6em;
 }
 
 #resultToggle{
-	float: right;
-	width: 8em;
-	height: 70%;
-	margin-right: 1em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+    float: right;
+    width: 8em;
+    height: 70%;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 #query{
-	display: block;
-	height: 40%;
-	width: 100%;
-	background-color: #fffffff;
-	background-repeat: no-repeat;
-	background-position:center;
+    display: block;
+    height: 40%;
+    width: 100%;
+    background-color: #fffffff;
+    background-repeat: no-repeat;
+    background-position:center;
 }
 
 #result{
-	display: block;
-	height: 35%;
-	width: 100%;
-	overflow: auto;
-	border-width: 0px;
-	border-color: #cccccc;
-	border-style: solid;
-	border-top-width: 0.5em;
-	border-bottom-width: 0.5em;
-	background-color: #ffffff;
+    display: block;
+    height: 35%;
+    width: 100%;
+    overflow: auto;
+    border-width: 0px;
+    border-color: #cccccc;
+    border-style: solid;
+    border-top-width: 0.5em;
+    border-bottom-width: 0.5em;
+    background-color: #ffffff;
 }
 
 #result .result{
-	margin-top: 10px;
-	padding: 5px;
-	background-color: #efefef;
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #efefef;
 }
 
 #result .content{
-	display: block;
-	position: relative;
-	margin-top:2px;
-	margin-bottom:2px;
+    display: block;
+    position: relative;
+    margin-top:2px;
+    margin-bottom:2px;
 }
 
 #result .triple{
-	display: inline;
-	margin-left: 10px;
-	background-color: #fafafa;
+    display: inline;
+    margin-left: 10px;
+    background-color: #fafafa;
 }
 
 #ajaxIndicator{
-	position: absolute;
-	height: auto;
-	width: 5%;
-	top: 40%;
-	left: 47.5%;
+    position: absolute;
+    height: auto;
+    width: 5%;
+    top: 40%;
+    left: 47.5%;
 }
 
 .box{
-		background-color: #efefef;
-		position: absolute;
-		border:1px solid black;
-		text-align:center;
-		z-index: 2;
-		padding: 30px;
-		-moz-user-select: none;
-		-khtml-user-select: none;
-		-webkit-user-select: none;
-		user-select: none;
-	}
-	
+    background-color: #efefef;
+    position: absolute;
+    border:1px solid black;
+    text-align:center;
+    z-index: 2;
+    padding: 30px;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 .box input{
-	position: relative;
-	width: 80%;
-	height:20px;
+    position: relative;
+    width: 80%;
+    height:20px;
 }
 
 .box:hover{
-	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
-	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
-	box-shadow: 0 0 5px rgba(0,0,0,0.9);
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.9);
 }
 
 .draggable{
-	border-style: none;
+    border-style: none;
 }
 
 /*
@@ -205,96 +205,96 @@ img{
 */
 
 .arrow{
-	position: absolute;
-	border: 0px solid black;
-	z-index: 1;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
+    position: absolute;
+    border: 0px solid black;
+    z-index: 1;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .innerArrowLeft{
-	float:left;
-	width: 50%;
-	height: 100%;
-	border: 0px solid black;
+    float:left;
+    width: 50%;
+    height: 100%;
+    border: 0px solid black;
 }
 
 .innerArrowRight{
-	float: left;
-	width: 49%;
-	height: 100%;
-	border: 0px solid black;
+    float: left;
+    width: 49%;
+    height: 100%;
+    border: 0px solid black;
 }
 
 .arrowContent{
-	position: absolute;
-	height: auto;
-	width: 40%;
-	max-width: 200px;
-	text-align: center;
-	top: -20px;
-	font-size: 20px;
+    position: absolute;
+    height: auto;
+    width: 40%;
+    max-width: 200px;
+    text-align: center;
+    top: -20px;
+    font-size: 20px;
 }
 
 .arrowContent input{
-	width: 100%;
-	font-size: 12px;
+    width: 100%;
+    font-size: 12px;
 }
 
 #suggestionList{
-	position: absolute;
-	border:  1px solid black;
-	background-color: #cccccc;
-	width: 140px;
-	height:auto; 
-	max-height: 140px;
-	overflow-y: auto;
-	z-index: 3; 
+    position: absolute;
+    border:  1px solid black;
+    background-color: #cccccc;
+    width: 140px;
+    height:auto; 
+    max-height: 140px;
+    overflow-y: auto;
+    z-index: 3; 
 }
 
 #suggestionList ul{
-	width: 100%;
-	padding: 0px;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
+    width: 100%;
+    padding: 0px;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #suggestionList .suggestion{
-list-style: none;
-width: 100%;
+    list-style: none;
+    width: 100%;
 }
 
 #suggestionList .suggestion:hover{
-	background-color: #eeeeee;
+    background-color: #eeeeee;
 }
 
 #suggestionList .suggestion .count, #suggestionList .suggestion .value{
-	display: inline-block;
-	padding-left: 5px;
+    display: inline-block;
+    padding-left: 5px;
 }
 
 #suggestionList .suggestion .count{
-	width: 40px;
+    width: 40px;
 }
 
 #suggestionList .suggestion .value{
-	width: 70px;
+    width: 70px;
 }
 
 #footer{
-	background-color: #cccccc;
-	height: 50px;
-	width: 100%;
+    background-color: #cccccc;
+    height: 50px;
+    width: 100%;
 }
 
 #footer .item{
-	float: left;
-	height: 40px;
-	margin-left: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
+    float: left;
+    height: 40px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

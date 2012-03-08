@@ -1,213 +1,213 @@
 function Arrow(){
 	
-	this.id;
-	this.a;
-	this.value = "*";
-	this.b;
-	this.direction;
+    this.id;
+    this.a;
+    this.value = "*";
+    this.b;
+    this.direction;
 	
-	this.setId = function(value){
-		this.id = value;
+    this.setId = function(value){
+	this.id = value;
+    }
+	
+    this.getId = function(){
+	return this.id;
+    }
+	
+    this.setA = function(value){
+	this.a = value;
+    }
+	
+    this.getA = function(){
+	return this.a;
+    }
+	
+    this.setValue = function(value){
+	this.value = value;
+	if($("#a"+ this.id ).length == 1){
+	    $("#a"+ this.id + " input")[0].value = value;
 	}
+    }
 	
-	this.getId = function(){
-		return this.id;
+    this.getValue = function(){
+	return this.value;
+    }
+	
+    this.setB = function(value){
+	this.b = value;
+    }
+	
+    this.getB =function(){
+	return this.b;
+    }
+	
+    this.setDirection = function(value){
+	this.direction = value;
+    }
+	
+    this.getDirection = function(){
+	return this.direction;
+    }
+	
+    this.getSource = function(){
+	if(this.direction == this.a){
+	    return this.b;
+	}else {
+	    return this.a;
 	}
+    }
 	
-	this.setA = function(value){
-		this.a = value;
-	}
+    this.getHTML = function(){
+	return '<div class="positionable arrow" id= "a' + this.id + '"><div class="arrowContent"></div><div class="innerArrowLeft"></div><div class="innerArrowRight"></div></div>';
+    }
 	
-	this.getA = function(){
-		return this.a;
-	}
+    this.refresh = function(){
+	jQuery.tree.setArrow(this.id. this);
+    }
 	
-	this.setValue = function(value){
-		this.value = value;
-		if($("#a"+ this.id ).length == 1){
-			$("#a"+ this.id + " input")[0].value = value;
-		}
-	}
-	
-	this.getValue = function(){
-		return this.value;
-	}
-	
-	this.setB = function(value){
-		this.b = value;
-	}
-	
-	this.getB =function(){
-		return this.b;
-	}
-	
-	this.setDirection = function(value){
-		this.direction = value;
-	}
-	
-	this.getDirection = function(){
-		return this.direction;
-	}
-	
-	this.getSource = function(){
-		if(this.direction == this.a){
-			return this.b;
-		}else {
-			return this.a;
-		}
-	}
-	
-	this.getHTML = function(){
-		return '<div class="positionable arrow" id= "a' + this.id + '"><div class="arrowContent"></div><div class="innerArrowLeft"></div><div class="innerArrowRight"></div></div>';
-	}
-	
-	this.refresh = function(){
-		jQuery.tree.setArrow(this.id. this);
-	}
-	
-	this.draw = function(){
-		//Find the two points the arrow should connect
-		var aX = this.a.getTailConnectionX();
-		var aY = this.a.getTailConnectionY();
+    this.draw = function(){
+	//Find the two points the arrow should connect
+	var aX = this.a.getTailConnectionX();
+	var aY = this.a.getTailConnectionY();
 		
-		var bX = this.b.getHeadConnectionX();
-		var bY = this.b.getHeadConnectionY();
+	var bX = this.b.getHeadConnectionX();
+	var bY = this.b.getHeadConnectionY();
 		
-		var width  = bX - aX;
-		var height = bY - aY;
+	var width  = bX - aX;
+	var height = bY - aY;
 		
-		//Find out if this arrrow has been drawn before
-		var selector = "#a" + this.id;
-		var element = $(selector);
-		if(element.length == 0){
-			$("#query").append(this.getHTML());
-			var element = $(selector);
-		}
+	//Find out if this arrrow has been drawn before
+	var selector = "#a" + this.id;
+	var element = $(selector);
+	if(element.length == 0){
+	    $("#query").append(this.getHTML());
+	    var element = $(selector);
+	}
 		
 		
-		//Targer is left and higher of origin
-		if (width < 0 && height < 0){
-			$("#a" + this.id + " .innerArrowLeft").css("border-top-width", "1px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "0px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
+	//Targer is left and higher of origin
+	if (width < 0 && height < 0){
+	    $("#a" + this.id + " .innerArrowLeft").css("border-top-width", "1px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "0px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
 			
-			$("#a" + this.id + " .innerArrowRight").css("border-top-width", "0px");
-			$("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "1px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-top-width", "0px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "1px");
 			
-			aY = aY +height;
-			aX = aX + width;
-			//$("#a" + this.id + " div").css("top", Math.abs(height) + 1);
+	    aY = aY +height;
+	    aX = aX + width;
+	    //$("#a" + this.id + " div").css("top", Math.abs(height) + 1);
 			
-			$("#a" + this.id + " .arrowContent").css("right", "30%");
-			$("#a" + this.id + " .arrowContent").html('&larr;<input type="text" value="' + this.getValue() + '"/>');
-		}
+	    $("#a" + this.id + " .arrowContent").css("right", "30%");
+	    $("#a" + this.id + " .arrowContent").html('&larr;<input type="text" value="' + this.getValue() + '"/>');
+	}
 		
-		//Targer is left and lower of origin
-		if(width < 0 && height >= 0){
-			$("#a" + this.id + " .innerArrowLeft").css("border-top-width", "0px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "1px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
+	//Targer is left and lower of origin
+	if(width < 0 && height >= 0){
+	    $("#a" + this.id + " .innerArrowLeft").css("border-top-width", "0px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "1px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
 			
-			$("#a" + this.id + " .innerArrowRight").css("border-top-width", "1px");
-			$("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "0px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-top-width", "1px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "0px");
 			
-			aX = aX + width;
+	    aX = aX + width;
 			
-			$("#a" + this.id + " .arrowContent").css("right", "30%");
-			$("#a" + this.id + " .arrowContent").html('&larr;<input type="text" value="' + this.getValue() + '"/>');
-		}
+	    $("#a" + this.id + " .arrowContent").css("right", "30%");
+	    $("#a" + this.id + " .arrowContent").html('&larr;<input type="text" value="' + this.getValue() + '"/>');
+	}
 		
-		//Target is right and higer of origin
-		if (width > 0 && height < 0){
-			$("#a" + this.id + " .innerArrowLeft").css("border-top-width", "0px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "1px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
+	//Target is right and higer of origin
+	if (width > 0 && height < 0){
+	    $("#a" + this.id + " .innerArrowLeft").css("border-top-width", "0px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "1px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
 			
-			$("#a" + this.id + " .innerArrowRight").css("border-top-width", "1px");
-			$("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "0px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-top-width", "1px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "0px");
 			
-			aY = aY +height;
-			//$("#a" + this.id + " div").css("top", Math.abs(height) + 1);
+	    aY = aY +height;
+	    //$("#a" + this.id + " div").css("top", Math.abs(height) + 1);
 			
-			$("#a" + this.id + " .arrowContent").css("left", "30%");
-			$("#a" + this.id + " .arrowContent").html('&rarr;<input type="text" value="' + this.getValue() + '"/>');
-		}
+	    $("#a" + this.id + " .arrowContent").css("left", "30%");
+	    $("#a" + this.id + " .arrowContent").html('&rarr;<input type="text" value="' + this.getValue() + '"/>');
+	}
 		
-		//Target is right and lower of origin
-		if (width > 0 && height >= 0){
-			$("#a" + this.id + " .innerArrowLeft").css("border-top-width", "1px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "0px");
-			$("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
+	//Target is right and lower of origin
+	if (width > 0 && height >= 0){
+	    $("#a" + this.id + " .innerArrowLeft").css("border-top-width", "1px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-bottom-width", "0px");
+	    $("#a" + this.id + " .innerArrowLeft").css("border-right-width", "1px");
 			
-			$("#a" + this.id + " .innerArrowRight").css("border-top-width", "0px");
-			$("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "1px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-top-width", "0px");
+	    $("#a" + this.id + " .innerArrowRight").css("border-bottom-width", "1px");
 			
-			$("#a" + this.id + " .arrowContent").css("left", "30%");
-			$("#a" + this.id + " .arrowContent").html('&rarr;<input type="text" value="' + this.getValue() + '"/>');
-		}
+	    $("#a" + this.id + " .arrowContent").css("left", "30%");
+	    $("#a" + this.id + " .arrowContent").html('&rarr;<input type="text" value="' + this.getValue() + '"/>');
+	}
 
-		element.css("left", aX + "px");
-		element.css("top", aY + "px");
-		element.css("width",  Math.abs(width) + "px");
-		element.css("height",  Math.abs(height) + "px");
+	element.css("left", aX + "px");
+	element.css("top", aY + "px");
+	element.css("width",  Math.abs(width) + "px");
+	element.css("height",  Math.abs(height) + "px");
 		
-		//Update the new value of the input field to the tree
-		$("#a" + this.id + " input").blur(function(){
-			var id = $(this).parent().parent().attr("id");
-			var id = new Number (id.replace("a", ""));
-			var arrow  =  jQuery.tree.getArrow(id);
+	//Update the new value of the input field to the tree
+	$("#a" + this.id + " input").blur(function(){
+	    var id = $(this).parent().parent().attr("id");
+	    var id = new Number (id.replace("a", ""));
+	    var arrow  =  jQuery.tree.getArrow(id);
 			
-			arrow.setValue(this.value);
-		});
+	    arrow.setValue(this.value);
+	});
 		
-		$("#a" + this.id + " input").click(function(){
+	$("#a" + this.id + " input").click(function(){
 			
-			var arrowId = $(this).parent().parent()[0].id;
-			var arrow = jQuery.tree.getArrow(arrowId.replace("a", ""));
-			var offset = $("#" + arrowId +" input").offset();
+	    var arrowId = $(this).parent().parent()[0].id;
+	    var arrow = jQuery.tree.getArrow(arrowId.replace("a", ""));
+	    var offset = $("#" + arrowId +" input").offset();
 						
-			var baseQuery = jQuery.tree.getJSON();
-			var extension = '{"a":"' + arrow.getA().getValue() + '", "relator":"*", "b":"' + arrow.getB().getValue() + '","direction":"' + arrow.getB().getValue() +'"}';
+	    var baseQuery = jQuery.tree.getJSON();
+	    var extension = '{"a":"' + arrow.getA().getValue() + '", "relator":"*", "b":"' + arrow.getB().getValue() + '","direction":"' + arrow.getB().getValue() +'"}';
 			
-			//Replace current value of clicked relator by wild card
-			var current = '{"a":"' + arrow.getA().getId() + '", "relator":"' + arrow.getValue() + '", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
-			var desired =  '{"a":"' + arrow.getA().getId() + '", "relator":"*", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
-			var modQuery = baseQuery.replace(current, desired);
+	    //Replace current value of clicked relator by wild card
+	    var current = '{"a":"' + arrow.getA().getId() + '", "relator":"' + arrow.getValue() + '", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
+	    var desired =  '{"a":"' + arrow.getA().getId() + '", "relator":"*", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
+	    var modQuery = baseQuery.replace(current, desired);
 			
-			//alert("base: " + baseQuery);
-			//alert("mod: " + modQuery); 
+	    //alert("base: " + baseQuery);
+	    //alert("mod: " + modQuery); 
 			
-			//Add wildcard triple we want a sugggestion for
-			var json = '{"baseQuery":'  + modQuery + ',';
-			json = json + '"extension":' + extension + '}';
+	    //Add wildcard triple we want a sugggestion for
+	    var json = '{"baseQuery":'  + modQuery + ',';
+	    json = json + '"extension":' + extension + '}';
 			
-			//Send
-			var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
+	    //Send
+	    var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
 			
-			$.ajax({
-				type: 'POST',
-				crossDomain:true,
-				url: url,
-				dataType:'json',
-				data: json,
-				context: this,
-				success: arrow.drawSuggestionList,
-				error: function (xhr) {
-					alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
-				}
-			});
+	    $.ajax({
+		type: 'POST',
+		crossDomain:true,
+		url: url,
+		dataType:'json',
+		data: json,
+		context: this,
+		success: arrow.drawSuggestionList,
+		error: function (xhr) {
+		    alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+		}
+	    });
 			
-			//proccess
+	//proccess
 			
-			//var data = jQuery.parseJSON('{"suggestion": [{"value": "OBJ","count": "173"},{"value": "vinden","count": "53"},{"value": "willen","count": "14"}]}');
-			//var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
-		});
-	}
+	//var data = jQuery.parseJSON('{"suggestion": [{"value": "OBJ","count": "173"},{"value": "vinden","count": "53"},{"value": "willen","count": "14"}]}');
+	//var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrow.id);	
+	});
+    }
 	
-	this.drawSuggestionList = function(data){
-		var arrowId = $(this).parent().parent()[0].id;
-		var offset = $("#" + arrowId +" input").offset();
+    this.drawSuggestionList = function(data){
+	var arrowId = $(this).parent().parent()[0].id;
+	var offset = $("#" + arrowId +" input").offset();
 		
-		var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrowId);	
-	}
+	var list = new SuggestionList( offset.left, offset.top + 30, data, "me", arrowId);	
+    }
 }
