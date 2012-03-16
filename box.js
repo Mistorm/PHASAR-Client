@@ -148,7 +148,7 @@ function Box(){
 	}
 		
 	//Get the base JSON query before doing anything else
-	var baseQuery = jQuery.tree.getJSON();
+	//var baseQuery = jQuery.tree.getJSON();
 		
 	//Check if  we know the new value for the relator.
 	if(this.newRelatorValue != null){
@@ -213,17 +213,36 @@ function Box(){
 		    var extension =  '{"a":"' + this.value + '", "relator":"' + this.newRelatorValue + '", "b":"*","direction":"*"}';
 		}
 					
-		var json = '{"baseQuery":'  + baseQuery + ',';
-		json = json + '"extension":' + extension + '}';
-				
-		var url = 'http://localhost:9998/mediator/query/suggestion/box';
+		//var json = '{"baseQuery":'  + baseQuery + ',';
+		//json = json + '"extension":' + extension + '}';
+		
+		var modifiedTree = jQuery.extend(true, {}, jQuery.tree);
+		
+		var modifiedBox = modifiedTree.newBox();
+		
+		var modifiedArrow = modifiedTree.newArrow();
+		modifiedArrow.setA(this);
+		modifiedArrow.setValue(this.newRelatorValue);
+		modifiedArrow.setB(modifiedBox);
+		
+		if(this.newExtensionDirection == "head"){
+		    modifiedArrow.setDirection(this);
+		}else if(this.newExtensionDirection == "tail"){
+		    modifiedArrow.setDirection(modifiedBox);
+		}
+		
+		var modifiedJson = '{"query":'  + modifiedTree.getJSON() + ',';
+		modifiedJson = modifiedJson + '"box":' + '{"nr":"' + modifiedBox.getId() + '", "content":"' + modifiedBox.getValue() + '"}' + '}';
+		
+		//		alert(modifiedJson);
+		var url = 'http://localhost:9998/mediator/query/suggestion';
 		
 		$.ajax({
 		    type: 'POST',
 		    crossDomain:true,
 		    url: url,
 		    dataType:'json',
-		    data: json,
+		    data: modifiedJson,
 		    context: this,
 		    success: this.drawSuggestionList,
 		    error: function (xhr) {
@@ -231,25 +250,52 @@ function Box(){
 		    }
 		});
 	    }
+	//No relator(arrow) value, need to get that first
 	}else{
-
+	    
+	    
+	    var modifiedTree = jQuery.extend(true, {}, jQuery.tree);
+		
+	    var modifiedBox = modifiedTree.newBox();
+		
+	    var modifiedArrow = modifiedTree.newArrow();
+	    modifiedArrow.setA(this);
+	    modifiedArrow.setB(modifiedBox);
+		
 	    if(this.newExtensionDirection == "head"){
-		var extension =  '{"a":"*", "relator":"*", "b":"' + this.value + '","direction":"*"}';
+		modifiedArrow.setDirection(this);
 	    }else if(this.newExtensionDirection == "tail"){
-		var extension =  '{"a":"' + this.value + '", "relator":"*", "b":"*","direction":"*"}';
+		modifiedArrow.setDirection(modifiedBox);
 	    }
+		
+	    var modifiedJson = '{"query":'  + modifiedTree.getJSON() + ',';
+	    
+	    string = '{"a":"' + modifiedArrow.getA().getId();
+	    string = string + '", "relator":"' + modifiedArrow.getValue();
+	    string = string + '", "b":"' + modifiedArrow.getB().getId();
+	    string = string + '", "direction":"' + modifiedArrow.getDirection().getId() + '"}';
+	    
+	    modifiedJson = modifiedJson + '"arrow":' + string + '}';
+
+	    //	    alert(modifiedJson);
+
+	    //	    if(this.newExtensionDirection == "head"){
+	    //		var extension =  '{"a":"*", "relator":"*", "b":"' + this.value + '","direction":"*"}';
+	    //	    }else if(this.newExtensionDirection == "tail"){
+	    //		var extension =  '{"a":"' + this.value + '", "relator":"*", "b":"*","direction":"*"}';
+	    //	    }
 			
-	    var json = '{"baseQuery":'  + baseQuery + ',';
-	    json = json + '"extension":' + extension + '}';
+	    //	    var json = '{"baseQuery":'  + baseQuery + ',';
+	    //	    json = json + '"extension":' + extension + '}';
 			
-	    var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
+	    var url = 'http://localhost:9998/mediator/query/suggestion';
 		
 	    $.ajax({
 		type: 'POST',
 		crossDomain:true,
 		url: url,
 		dataType:'json',
-		data: json,
+		data: modifiedJson,
 		context: this,
 		success: this.drawSuggestionList,
 		error: function (xhr) {
@@ -272,8 +318,8 @@ function Box(){
 	    $("#b" + this.getId()).remove();
 	    $("#a" + arrowId).remove();
 	}else{
-    //alert("Box not removed.");
-    }
+	//alert("Box not removed.");
+	}
     }
 	
 	
@@ -391,50 +437,47 @@ function Box(){
 		    }
 		    if(y > boxBottom){
 			//alert("Swipe down");
-			var arrows = jQuery.tree.getArrows(box);
-			var baseQuery = jQuery.tree.getJSON();
+			//var arrows = jQuery.tree.getArrows(box);
+			//var baseQuery = jQuery.tree.getJSON();
 						
 			//Replace current value of clicked box by wild card
-			var current = '{"nr":"' + box.getId() + '", "content":"' + box.getValue() + '"}';
-			var desired =  '{"nr":"' + box.getId() + '", "content":"*"}';
-			var modQuery = baseQuery.replace(current, desired);
+			//var current = '{"nr":"' + box.getId() + '", "content":"' + box.getValue() + '"}';
+			//var desired =  '{"nr":"' + box.getId() + '", "content":"*"}';
+			//var modQuery = baseQuery.replace(current, desired);
 						
-			if(arrows.length > 0){
-							
-			    if(arrows[0].getA().getValue() == box.getValue()){
-				if(arrows[0].getDirection() == arrows[0].getA() ){
-				    var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"*"}';
-				}else if(arrows[0].getDirection() == arrows[0].getB()){
-				    var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"' + arrows[0].getB().getValue() + '"}';
-				}
-			    }else if(arrows[0].getB().getValue() == box.getValue()){
-				if(arrows[0].getDirection() == arrows[0].getA() ){
-				    var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"' + arrows[0].getA().getValue() + '"}';
-				}else if(arrows[0].getDirection() == arrows[0].getB()){
-				    var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"*"}';
-				}
-			    }
-							
-			    var json = '{"baseQuery":'  + baseQuery + ',';
-			    json = json + '"extension":' + extension + '}';
-							
-			    //alert("Debug: " + json);
-			
-			    var url = 'http://localhost:9998/mediator/query/suggestion/box';
+			//if(arrows.length > 0){
+			//				
+			//    if(arrows[0].getA().getValue() == box.getValue()){
+			//	if(arrows[0].getDirection() == arrows[0].getA() ){
+			//var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"*"}';
+			//}else if(arrows[0].getDirection() == arrows[0].getB()){
+			//var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"' + arrows[0].getB().getValue() + '"}';
+			//}
+			///}else if(arrows[0].getB().getValue() == box.getValue()){
+			//if(arrows[0].getDirection() == arrows[0].getA() ){
+			//var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"' + arrows[0].getA().getValue() + '"}';
+			//}else if(arrows[0].getDirection() == arrows[0].getB()){
+			//var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"*"}';
+			//}
+			//}
+			    
+			var json = '{"query":'  + jQuery.tree.getJSON() + ',';
+			json = json + '"box":' + '{"nr":"' + box.getId() + '", "content":"' + box.getValue() + '"}' + '}';
 		
-			    $.ajax({
-				type: 'POST',
-				crossDomain:true,
-				url: url,
-				dataType:'json',
-				data: json,
-				context: box,
-				success: box.drawSuggestionList,
-				error: function (xhr) {
-				    alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
-				}
-			    });
-			}
+			var url = 'http://localhost:9998/mediator/query/suggestion';
+
+			$.ajax({
+			    type: 'POST',
+			    crossDomain:true,
+			    url: url,
+			    dataType:'json',
+			    data: json,
+			    context: box,
+			    success: box.drawSuggestionList,
+			    error: function (xhr) {
+				alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+			    }
+			});
 		    }
 		}
 	    }
