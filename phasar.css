@@ -8,6 +8,7 @@ body{
     font-family: "sans-serif";
     font-size: 0.8em;
     background-color:#ffffff;
+    overflow: hidden;
 }
 
 #banner{
@@ -18,10 +19,18 @@ body{
 
 #banner div{
     position: relative;
-    top: -25px;
-    left: 25px;
+    top: -15px;
+    left: 10px;
     display:inline;
     font-size: 2.0em;
+}
+
+#banner #title{
+    font-size: 1.0em;
+}
+#banner #feedback{
+    font-size: 0.7em;
+    color: #cccccc;
 }
 
 #header{
@@ -66,21 +75,44 @@ img{
     display: block;
     height: 40%;
     width: 100%;
-    background-color: #fffffff;
+    background-color: #ffffff;
     background-repeat: no-repeat;
     background-position:center;
 }
 
+#tabs{
+
+}
+
+.tab{
+    float: left;
+    padding: 5px;
+
+    background-color: #eeeeee;
+    border-width: 1px;
+    border-color: #cccccc;
+    border-style: solid;
+
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.tab.active{
+    background-color: #ffffff;
+}
+
+
 #result{
     display: block;
-    height: 35%;
+    height: 45%;
     width: 100%;
     overflow: auto;
     border-width: 0px;
     border-color: #cccccc;
     border-style: solid;
     border-top-width: 0.5em;
-    border-bottom-width: 0.5em;
     background-color: #ffffff;
 }
 
@@ -111,13 +143,25 @@ img{
     left: 47.5%;
 }
 
+#suggestions{
+    display: none;
+}
+#options{
+    display: none;
+}
+
 .box{
     background-color: #efefef;
     position: absolute;
     border:1px solid black;
     text-align:center;
     z-index: 2;
-    padding: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
@@ -139,70 +183,6 @@ img{
 .draggable{
     border-style: none;
 }
-
-/*
-.box .top{
-	background-color: #efefef;
-	position: absolute;
-	text-align:center;
-	width: 190px;
-	height: 20px;
-	left: -1px;
-	top: -32px;
-	padding: 5px;
-	clear: right;
-	border:1px solid black;
-}
-
-.box .top:hover, .box .left:hover, .box .right:hover, .box .bottom:hover {
-	background-color: #dfdfdf;
-}
-
-.box .left{
-	background-color: #efefef;
-	position: absolute;
-	text-align:center;
-	width: 48px;
-	height: 14px;
-	left: -43px;
-	top: 26px;
-	border:1px solid black;
-	direction: rtl;
-	padding: 5px;
-	-webkit-transform: rotate(270deg);
-	-moz-transform: rotate(270deg);
-	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-}
-
-.box .center{
-}
-
-.box .right{
-	background-color: #efefef;
-	position: absolute;
-	text-align:center;
-	width: 48px;
-	height: 14px;
-	left: 151px;
-	top: 26px;
-	border:1px solid black;
-	padding: 5px;
-	-webkit-transform: rotate(90deg);
-	-moz-transform: rotate(90deg);
-	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-}
-
-.box .bottom{
-	background-color: #efefef;
-	position: absolute;
-	text-align:center;
-	width:40%;
-	left: 30%;
-	top: 6em;
-	padding: 5px;
-	border:1px solid black;
-}
-*/
 
 .arrow{
     position: absolute;
@@ -247,25 +227,32 @@ img{
     position: absolute;
     border:  1px solid black;
     background-color: #cccccc;
-    width: 140px;
-    height:auto; 
-    max-height: 140px;
-    overflow-y: auto;
+    min-width: 150px;
+    min-height: 50px;
+    width: auto;
+    height: auto;
+    max-height: 300px;
+    max-width: 500px;
+    overflow-y: scroll;
     z-index: 3; 
 }
 
 #suggestionList ul{
-    width: 100%;
-    padding: 0px;
+    position: relative;
+    width: auto;
+    margin-right: 5px;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
+    -webkit-padding-start: 0px;
     user-select: none;
 }
 
 #suggestionList .suggestion{
     list-style: none;
-    width: 100%;
+    width: auto;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #suggestionList .suggestion:hover{
@@ -274,15 +261,14 @@ img{
 
 #suggestionList .suggestion .count, #suggestionList .suggestion .value{
     display: inline-block;
-    padding-left: 5px;
 }
 
 #suggestionList .suggestion .count{
-    width: 40px;
+    width: 50px;
 }
 
 #suggestionList .suggestion .value{
-    width: 70px;
+    width: auto;
 }
 
 #footer{

@@ -132,5 +132,7 @@ function drawQueryResult(data){
     $("#result div").remove();
     //And show the new ones
     $("#result").append(result);
+    
+    $("#feedback").html("Last query produced " + data.result.length + " hits.");
 	
 }

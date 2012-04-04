@@ -121,22 +121,32 @@ function Box(){
     }
 	
     this.drawSuggestionList = function(data){
+	
+	var tailSuggestionListXMod = 50;
+	var tailSuggestionListYMod = 10;
+	
+	var headSuggestionListXMod = -100;
+	var headSuggestionListYMod = 10;
+	
+	var suggestionListXMod = -2;
+	var suggestionListYMod = 50;
+	
 	//Add menu for picking new arrow value
 	var list;
 	if(this.newRelatorValue != null){
 	    if(this.newExtensionDirection == "head"){
-		list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, this.newExtensionDirection, this.getId());
+		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, this.newExtensionDirection, this.getId());
 	    }else{
-		list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, this.newExtensionDirection, this.getId());
+		list = new SuggestionList(this.getX() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, this.newExtensionDirection, this.getId());
 	    }
 	}else{
 	    //Add menu for picking new arrow value
 	    if(this.newExtensionDirection == "head"){
-		list = new SuggestionList(this.getX() + -100, this.getY() + 50, data, "arrow", this.getId());
+		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, "arrow", this.getId());
 	    }else if(this.newExtensionDirection == "tail"){
-		list = new SuggestionList(this.getX() + 50, this.getY() + 50, data, "arrow", this.getId());
+		list = new SuggestionList(this.getX() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, "arrow", this.getId());
 	    }else{
-		list = new SuggestionList(this.getX() - 20, this.getY() + 50, data, "me", "b" + this.getId());
+		list = new SuggestionList(this.getX() - suggestionListXMod, this.getY() + suggestionListYMod, data, "me", "b" + this.getId());
 	    }
 	}
     }
@@ -436,31 +446,6 @@ function Box(){
 			}));
 		    }
 		    if(y > boxBottom){
-			//alert("Swipe down");
-			//var arrows = jQuery.tree.getArrows(box);
-			//var baseQuery = jQuery.tree.getJSON();
-						
-			//Replace current value of clicked box by wild card
-			//var current = '{"nr":"' + box.getId() + '", "content":"' + box.getValue() + '"}';
-			//var desired =  '{"nr":"' + box.getId() + '", "content":"*"}';
-			//var modQuery = baseQuery.replace(current, desired);
-						
-			//if(arrows.length > 0){
-			//				
-			//    if(arrows[0].getA().getValue() == box.getValue()){
-			//	if(arrows[0].getDirection() == arrows[0].getA() ){
-			//var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"*"}';
-			//}else if(arrows[0].getDirection() == arrows[0].getB()){
-			//var extension =  '{"a":"*", "relator":"' + arrows[0].getValue() + '", "b":"' + arrows[0].getB().getValue()  + '","direction":"' + arrows[0].getB().getValue() + '"}';
-			//}
-			///}else if(arrows[0].getB().getValue() == box.getValue()){
-			//if(arrows[0].getDirection() == arrows[0].getA() ){
-			//var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"' + arrows[0].getA().getValue() + '"}';
-			//}else if(arrows[0].getDirection() == arrows[0].getB()){
-			//var extension =  '{"a":"' + arrows[0].getA().getValue() + '", "relator":"' + arrows[0].getValue() + '", "b":"*","direction":"*"}';
-			//}
-			//}
-			    
 			var json = '{"query":'  + jQuery.tree.getJSON() + ',';
 			json = json + '"box":' + '{"nr":"' + box.getId() + '", "content":"' + box.getValue() + '"}' + '}';
 		

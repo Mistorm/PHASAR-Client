@@ -164,25 +164,31 @@ function Arrow(){
 			
 	    var arrowId = $(this).parent().parent()[0].id;
 	    var arrow = jQuery.tree.getArrow(arrowId.replace("a", ""));
-	    var offset = $("#" + arrowId +" input").offset();
+	    //var offset = $("#" + arrowId +" input").offset();
 						
-	    var baseQuery = jQuery.tree.getJSON();
-	    var extension = '{"a":"' + arrow.getA().getValue() + '", "relator":"*", "b":"' + arrow.getB().getValue() + '","direction":"' + arrow.getB().getValue() +'"}';
+	    var query = jQuery.tree.getJSON();
+	    
+	    
+	    //string = '{"a":"' + modifiedArrow.getA().getId();
+	    //string = string + '", "relator":"' + modifiedArrow.getValue();
+	    //string = string + '", "b":"' + modifiedArrow.getB().getId();
+	    //string = string + '", "direction":"' + modifiedArrow.getDirection().getId() + '"}';
+	    var suggestionjson = '{"a":"' + arrow.getA().getId() + '", "relator":"' + arrow.getValue() + '", "b":"' + arrow.getB().getId() + '","direction":"' + arrow.getDirection().getId() +'"}';
 			
 	    //Replace current value of clicked relator by wild card
-	    var current = '{"a":"' + arrow.getA().getId() + '", "relator":"' + arrow.getValue() + '", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
-	    var desired =  '{"a":"' + arrow.getA().getId() + '", "relator":"*", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
-	    var modQuery = baseQuery.replace(current, desired);
+	    //var current = '{"a":"' + arrow.getA().getId() + '", "relator":"' + arrow.getValue() + '", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
+	    //var desired =  '{"a":"' + arrow.getA().getId() + '", "relator":"*", "b":"' + arrow.getB().getId() + '", "direction":"' + arrow.getDirection().getId() + '"}';
+	    //var modQuery = baseQuery.replace(current, desired);
 			
 	    //alert("base: " + baseQuery);
 	    //alert("mod: " + modQuery); 
 			
 	    //Add wildcard triple we want a sugggestion for
-	    var json = '{"baseQuery":'  + modQuery + ',';
-	    json = json + '"extension":' + extension + '}';
+	    var json = '{"query":'  + query + ',';
+	    json = json + '"arrow":' + suggestionjson + '}';
 			
 	    //Send
-	    var url = 'http://localhost:9998/mediator/query/suggestion/arrow';
+	    var url = 'http://localhost:9998/mediator/query/suggestion';
 			
 	    $.ajax({
 		type: 'POST',
