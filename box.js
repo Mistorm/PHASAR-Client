@@ -43,7 +43,7 @@ function Box(){
 	//update HTML representation if there is one
 	var w = $("#b"+ this.id );
 	if($("#b"+ this.id ).length == 1){
-	    $("#b"+ this.id )[0].innerText = value;
+	    $("#b"+ this.id + " .content")[0].innerText = value;
 	}
     }
 	
@@ -73,7 +73,7 @@ function Box(){
     }
 	
     this.getHTML =  function(){
-	return '<div class="positionable box" id = "b' + this.id +'">' + this.getValue() + '</div>';
+	return '<div class="positionable box" id = "b' + this.id +'">' + '<div class="left"></div><div class="top"></div><div class="right"></div><div class="bottom"></div><div class="content">' + this.getValue() + '</div></div>';
     }
 	
     //The x of where an tail arrow should conect with the box
@@ -263,7 +263,6 @@ function Box(){
 	//No relator(arrow) value, need to get that first
 	}else{
 	    
-	    
 	    var modifiedTree = jQuery.extend(true, {}, jQuery.tree);
 		
 	    var modifiedBox = modifiedTree.newBox();
@@ -286,18 +285,7 @@ function Box(){
 	    string = string + '", "direction":"' + modifiedArrow.getDirection().getId() + '"}';
 	    
 	    modifiedJson = modifiedJson + '"arrow":' + string + '}';
-
-	    //	    alert(modifiedJson);
-
-	    //	    if(this.newExtensionDirection == "head"){
-	    //		var extension =  '{"a":"*", "relator":"*", "b":"' + this.value + '","direction":"*"}';
-	    //	    }else if(this.newExtensionDirection == "tail"){
-	    //		var extension =  '{"a":"' + this.value + '", "relator":"*", "b":"*","direction":"*"}';
-	    //	    }
-			
-	    //	    var json = '{"baseQuery":'  + baseQuery + ',';
-	    //	    json = json + '"extension":' + extension + '}';
-			
+		
 	    var url = 'http://localhost:9998/mediator/query/suggestion';
 		
 	    $.ajax({
@@ -315,7 +303,7 @@ function Box(){
 	}
     }
 	
-    this.removeMe = function (){
+    this.removeMe = function(){
 	var arrow = jQuery.tree.getArrows(this);
 			
 	if(arrow.length != 0){
@@ -331,7 +319,51 @@ function Box(){
 	//alert("Box not removed.");
 	}
     }
+    
+    this.getSuggestionMenu = function(){
+	var json = '{"query":'  + jQuery.tree.getJSON() + ',';
+	json = json + '"box":' + '{"nr":"' + this.getId() + '", "content":"' + this.getValue() + '"}' + '}';
+		
+	var url = 'http://localhost:9998/mediator/query/suggestion';
+
+	$.ajax({
+	    type: 'POST',
+	    crossDomain:true,
+	    url: url,
+	    dataType:'json',
+	    data: json,
+	    context: this,
+	    success: this.drawSuggestionList,
+	    error: function (xhr) {
+		alert(xhr.responseText + '  ' + xhr.status + '  ' + xhr.statusText);
+	    }
+	});
+    }
 	
+    this.moveMe = function(){
+	$("#b" + this.id).addClass("draggable");
+	
+	$("#query").on("mousemove", (function(event){
+	    var draggable = $(".draggable");
+	    draggable.css("left",  event.pageX - draggable.innerWidth()/2);
+	    draggable.css("top", event.pageY - draggable.innerHeight()/2);
+							
+	    //Find the id of the box in question, the box, and the tree
+	    var id = $(".draggable")[0].id;
+	    var id = new Number (id.replace("b", ""));
+	    var box  =  jQuery.tree.getBox(id);
+							
+	    //Update the X and Y of the moved box
+	    box.setX(event.pageX - draggable.innerWidth()/2);
+	    box.setY(event.pageY - draggable.innerHeight()/2);
+							
+	    //Redraw the arrows
+	    var arrows = jQuery.tree.getArrows(box);
+	    for(var i = 0; i < arrows.length;i++){
+		arrows[i].draw();
+	    }			
+	}));
+    }
 	
     this.draw = function(){
 	
@@ -346,6 +378,26 @@ function Box(){
 	if(element.length == 0){
 	    $("#query").append(this.getHTML());
 	}
+	
+	$("#b" + this.id + " .left, #b" + this.id +" .right, #b" + this.id +" .top, #b" + this.id +" .bottom").click(function(event){
+	    event.stopPropagation();
+	    var id = $(this).parent().attr("id");
+	    id = new Number (id.replace("b", ""));
+	    var box  =  jQuery.tree.getBox(id);
+	    
+	    var clickedTab = event.target.className;
+	    if(clickedTab == "left"){
+		box.extend("head");
+	    }else if(clickedTab == "right"){
+		box.extend("tail");
+	    }
+	    else if(clickedTab == "top"){
+		box.moveMe();
+	    }
+	    else if(clickedTab == "bottom"){
+		box.getSuggestionMenu();
+	    }
+	});
 		
 	//Make it draggable and set the position
 	$("#b" + this.id).css("left", this.x + "px");
@@ -374,14 +426,14 @@ function Box(){
 		
 	    //Find the id of the box in question, the box, and the tree
 	    var id = $(this).attr("id");
-	    var id = new Number (id.replace("b", ""));
+	    id = new Number (id.replace("b", ""));
 	    var box  =  jQuery.tree.getBox(id);
 			
-	    $("#b" + box.getId()).html('<input type="text" value="' + box.getValue() + '"/>');
+	    $("#b" + box.getId() + " .content").html('<input type="text" value="' + box.getValue() + '"/>');
 			
 	    $("#b" + box.getId() + " input").blur(function(){
 		box.setValue(this.value);
-		$(this).parent().html(this.value);
+	    //$(this).parent().html(this.value);
 	    });
 			
 	    $("#b" + box.getId() + " input").focus();
@@ -441,8 +493,7 @@ function Box(){
 			    var arrows = jQuery.tree.getArrows(box);
 			    for(var i = 0; i < arrows.length;i++){
 				arrows[i].draw();
-			    }
-							
+			    }			
 			}));
 		    }
 		    if(y > boxBottom){

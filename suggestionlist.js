@@ -55,7 +55,7 @@ function SuggestionList(x, y, list, destination, id){
 	    $("#suggestionList").remove();
 			
 	    var id = $(this).parent().parent().find("input")[0].value;
-	    var id = new Number (id.replace("b", ""));
+	    id = new Number (id.replace("b", ""));
 	    var box  =  jQuery.tree.getBox(id);
 			
 	    box.setNewHeadValue($(this).children(".value")[0].innerText);
@@ -68,7 +68,7 @@ function SuggestionList(x, y, list, destination, id){
 	    $("#suggestionList").remove();
 			
 	    var id = $(this).parent().parent().find("input")[0].value;
-	    var id = new Number (id.replace("b", ""));
+	    id = new Number (id.replace("b", ""));
 	    var box  =  jQuery.tree.getBox(id);
 			
 	    box.setNewTailValue($(this).children(".value")[0].innerText);
@@ -83,13 +83,13 @@ function SuggestionList(x, y, list, destination, id){
 	    var me;
 			
 	    if(id.charAt(0) == "b"){
-		var id = new Number (id.replace("b", ""));
+		id = new Number (id.replace("b", ""));
 		me  =  jQuery.tree.getBox(id);
 	    }else if(id.charAt(0) == "a"){
-		var id = new Number (id.replace("a", ""));
+		id = new Number (id.replace("a", ""));
 		me =  jQuery.tree.getArrow(id);
 	    }
-			
+	    
 	    me.setValue($(this).children(".value")[0].innerText);
 	});
     }

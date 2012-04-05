@@ -180,6 +180,46 @@ img{
     box-shadow: 0 0 5px rgba(0,0,0,0.9);
 }
 
+.box .left, .box .top, .box .bottom, .box .right{
+    position: absolute;
+    height: 5px;
+    width: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.box .left{
+    left: -17px;
+    top: 25%;
+    height: 50%;
+    min-height: 15px;
+    width: 15px;
+    background-color: palegoldenrod;
+}
+.box .top{
+    top: -17px;
+    left: 25%;
+    width: 50%;
+    min-width: 15px;
+    height: 15px;
+    background-color: yellow;
+}
+.box .right{
+    right: -17px;
+    top: 25%;
+    height: 50%;
+    min-height: 15px;
+    width: 15px;
+    background-color: palegoldenrod;
+}
+.box .bottom{
+    top: 55px;
+    left:  25%;
+    width: 50%;
+    min-width: 15px;
+    height: 15px;
+    background-color: burlywood;
+}
+
 .draggable{
     border-style: none;
 }
