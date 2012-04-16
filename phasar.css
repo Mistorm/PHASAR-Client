@@ -80,15 +80,12 @@ img{
     background-position:center;
 }
 
-#tabs{
-
-}
 
 .tab{
     float: left;
     padding: 5px;
 
-    background-color: #eeeeee;
+    background-color: #DEDEDE;
     border-width: 1px;
     border-color: #cccccc;
     border-style: solid;
@@ -99,12 +96,17 @@ img{
     border-top-right-radius: 10px;
 }
 
+.tab:hover{
+    border-bottom-color: #000000;
+    cursor: pointer;
+}
+
 .tab.active{
     background-color: #ffffff;
 }
 
 
-#result{
+#result, #suggestions, #options{
     display: block;
     height: 45%;
     width: 100%;
@@ -144,10 +146,10 @@ img{
 }
 
 #suggestions{
-    display: none;
+
 }
 #options{
-    display: none;
+
 }
 
 .box{
@@ -193,7 +195,7 @@ img{
     height: 50%;
     min-height: 15px;
     width: 15px;
-    background-color: palegoldenrod;
+    background-color: #97B3E8;
 }
 .box .top{
     top: -17px;
@@ -201,7 +203,7 @@ img{
     width: 50%;
     min-width: 15px;
     height: 15px;
-    background-color: yellow;
+    background-color: #6B98ED;
 }
 .box .right{
     right: -17px;
@@ -209,15 +211,15 @@ img{
     height: 50%;
     min-height: 15px;
     width: 15px;
-    background-color: palegoldenrod;
+    background-color: #97B3E8;
 }
 .box .bottom{
-    top: 55px;
+    bottom: -17px;
     left:  25%;
     width: 50%;
     min-width: 15px;
     height: 15px;
-    background-color: burlywood;
+    background-color: #CAD5EB;
 }
 
 .draggable{

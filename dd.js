@@ -72,8 +72,40 @@ $(function() {
 	    }
 	}
     });
+    
+    //Code to make the tabs function.
+    $(".tab").click(function(event){
+	//Make the clicked tab active
+	$(".tab").removeClass("active");
+	$(event.target).addClass("active");
+	//Make the proper contentpane active
+	
+	$(".tabcontent").hide();
+	
+	var id = $(event.target).attr("id");
+	
+	switch (id){
+	    case 'suggestionsTab':
+		$("#suggestions").show();
+		break;
+	    case 'optionsTab':
+		$("#options").show();
+		break;
+	    case 'resultTab':
+		$("#result").show();
+		break;
+	    default:
+		$("#result").show();
+		break;
+	}
+    });
+    
+    $(".tabcontent").hide();
+    $("#result").show();
+    
 });
 
+//Use jQuery events to show and hide the waiting/loading indicator.
 $(document).ajaxStart(function(){
     $("#ajaxIndicator").show();
 });
@@ -82,6 +114,7 @@ $(document).ajaxStop(function(){
     $("#ajaxIndicator").hide();
 });
 
+//Submit the current query when the enter key is pressed
 $(document).bind('keypress', function(e) {
     if(e.keyCode==13){
 	$("#resultToggle").click();
@@ -91,7 +124,6 @@ $(document).bind('keypress', function(e) {
 function submitQuery(){
 	
     var url = 'http://localhost:9998/mediator/query';
-    //var url = 'http://95.96.221.90:9998/mediator/query';
 		
     $.ajax({
 	type: 'POST',

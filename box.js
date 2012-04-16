@@ -8,11 +8,11 @@ function Box(){
     this.HEADOFFSETX = -300;
     this.HEADOFFSETY = 0;
 	
-    this.TAILCONNECTIONOFFSETX =  101;
-    this.TAILCONNECTIONOFFSETY = 41;
+    //this.TAILCONNECTIONOFFSETX =  101;
+    //this.TAILCONNECTIONOFFSETY = 41;
 	
-    this.HEADCONNECTIONOFFSETX =  101;
-    this.HEADCONNECTIONOFFSETY = 41;
+    //this.HEADCONNECTIONOFFSETX =  101;
+    //this.HEADCONNECTIONOFFSETY = 41;
 	
     //Default fields & values for a new box
     this.id = null;
@@ -85,20 +85,20 @@ function Box(){
     //The y of where an tail arrow should conect with the box
     this.getTailConnectionY = function(){
 	var height = $("#b" + this.getId()).height();
-	return this.getY() + 30 + (height / 2); 
+	return this.getY() + 22 + (height / 2); 
     }
 	
 	
     //The x of where an head arrow should conect with the box
     this.getHeadConnectionX = function(){
 	var width = $("#b" + this.getId()).width();
-	return this.getX() + 30+ (width / 2); 
+	return this.getX() + 30 + (width / 2); 
     }
 	
     //The y of where an tail arrow should conect with the box
     this.getHeadConnectionY = function(){
 	var height = $("#b" + this.getId()).height();
-	return this.getY() + 30 + (height / 2); 
+	return this.getY() + 22 + (height / 2); 
     }
 	
     this.setNewHeadValue = function(value){
