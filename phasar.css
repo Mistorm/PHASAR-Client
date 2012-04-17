@@ -63,12 +63,11 @@ img{
 }
 
 #resultToggle{
-    float: right;
+    position: relative;
+    top: -20px;
     width: 8em;
-    height: 70%;
-    margin-right: 1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    height: 40%;
+    margin-left: 1em;
 }
 
 #query{
@@ -162,8 +161,7 @@ img{
     padding-right: 25px;
     padding-top: 20px;
     padding-bottom: 20px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+    
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
@@ -195,7 +193,7 @@ img{
     height: 50%;
     min-height: 15px;
     width: 15px;
-    background-color: #97B3E8;
+    background-color: #FFF0C4;
 }
 .box .top{
     top: -17px;
@@ -203,7 +201,7 @@ img{
     width: 50%;
     min-width: 15px;
     height: 15px;
-    background-color: #6B98ED;
+    background-color: #FFF0C4;
 }
 .box .right{
     right: -17px;
@@ -211,7 +209,7 @@ img{
     height: 50%;
     min-height: 15px;
     width: 15px;
-    background-color: #97B3E8;
+    background-color: #FFF0C4;
 }
 .box .bottom{
     bottom: -17px;
@@ -219,7 +217,7 @@ img{
     width: 50%;
     min-width: 15px;
     height: 15px;
-    background-color: #CAD5EB;
+    background-color: #FFF0C4;
 }
 
 .draggable{

@@ -154,9 +154,10 @@ function drawQueryResult(data){
 	    result = result + start;
 	    result = result + "<div class=content>" + data.result[i].content + "</div>";
 	
-	    for(j in data.result[i].triples){
-		result = result + '<div class="triple">' + data.result[i].triples[j] + '</div>';
-	    }
+	    //Uncomment to add tripels to browsing
+	    //for(j in data.result[i].triples){
+	    //result = result + '<div class="triple">' + data.result[i].triples[j] + '</div>';
+	    //}
 	    result = result + end;
 	}
     }
@@ -165,6 +166,6 @@ function drawQueryResult(data){
     //And show the new ones
     $("#result").append(result);
     
-    $("#feedback").html("Last query produced " + data.result.length + " hits.");
+    $("#feedback").html(data.result.length + " hits.");
 	
 }

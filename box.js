@@ -19,7 +19,7 @@ function Box(){
     this.value = "*";
 	
     //Default pacement for a new box on an empty canvas
-    this.x = 350;
+    this.x = 250;
     this.y = 250;
 	
     //Values used for the new box/arrow when extending the current box
@@ -122,10 +122,10 @@ function Box(){
 	
     this.drawSuggestionList = function(data){
 	
-	var tailSuggestionListXMod = 50;
+	var tailSuggestionListXMod = 14;
 	var tailSuggestionListYMod = 10;
 	
-	var headSuggestionListXMod = -100;
+	var headSuggestionListXMod = -16;
 	var headSuggestionListYMod = 10;
 	
 	var suggestionListXMod = -2;
@@ -135,16 +135,16 @@ function Box(){
 	var list;
 	if(this.newRelatorValue != null){
 	    if(this.newExtensionDirection == "head"){
-		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, this.newExtensionDirection, this.getId());
+		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, this.newExtensionDirection, this.getId(), "right");
 	    }else{
-		list = new SuggestionList(this.getX() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, this.newExtensionDirection, this.getId());
+		list = new SuggestionList(this.getX() + $("#b" + this.getId()).outerWidth() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, this.newExtensionDirection, this.getId());
 	    }
 	}else{
 	    //Add menu for picking new arrow value
 	    if(this.newExtensionDirection == "head"){
-		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, "arrow", this.getId());
+		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, "arrow", this.getId(), "right");
 	    }else if(this.newExtensionDirection == "tail"){
-		list = new SuggestionList(this.getX() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, "arrow", this.getId());
+		list = new SuggestionList(this.getX() + $("#b" + this.getId()).outerWidth() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, "arrow", this.getId());
 	    }else{
 		list = new SuggestionList(this.getX() - suggestionListXMod, this.getY() + suggestionListYMod, data, "me", "b" + this.getId());
 	    }
@@ -399,7 +399,6 @@ function Box(){
 	    }
 	});
 		
-	//Make it draggable and set the position
 	$("#b" + this.id).css("left", this.x + "px");
 	$("#b" + this.id).css("top", this.y + "px");
 				
@@ -415,7 +414,6 @@ function Box(){
 	    $("#query").off("mousemove"); 
 	    jQuery.boxLastMousedown = null;
 	    $(this).removeClass("draggable");
-
 	});
 		
 	$("#b" + this.id).mouseover(function(event){

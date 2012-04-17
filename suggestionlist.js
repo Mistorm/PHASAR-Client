@@ -1,4 +1,8 @@
-function SuggestionList(x, y, list, destination, id){
+function SuggestionList(x, y, list, destination, id, position){
+	
+    if(!position){
+	var position = "left";
+    }
 	
     this.x = x;
     this.y = y;
@@ -98,6 +102,14 @@ function SuggestionList(x, y, list, destination, id){
 	jQuery.boxLastMouseover = null;
     });
     
-    $("#suggestionList").css("left", this.x);
+    //To make sure the box can be put in its proper position regardsless of 
+    //the content (and as such the width of the suggestion list) the alightment 
+    //will be relative to right instead of left when the value of x is negative.
+    if(position == "left"){
+	$("#suggestionList").css("left", this.x);
+    }else if(position == "right"){
+	$("#suggestionList").css("left", this.x - $("#suggestionList").width());
+    }
+    //$("#suggestionList").css("left", this.x);
     $("#suggestionList").css("top", this.y);
 }
