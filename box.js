@@ -137,7 +137,9 @@ function Box(){
 	    if(this.newExtensionDirection == "head"){
 		list = new SuggestionList(this.getX() + headSuggestionListXMod, this.getY() + headSuggestionListYMod, data, this.newExtensionDirection, this.getId(), "right");
 	    }else{
-		list = new SuggestionList(this.getX() + $("#b" + this.getId()).outerWidth() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, this.newExtensionDirection, this.getId());
+		//list = new SuggestionList(this.getX() + $("#b" + this.getId()).outerWidth() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, this.newExtensionDirection, this.getId());
+		callback = function(values){alert(values)};
+		list = new SuggestionMenu(this.getX() + $("#b" + this.getId()).outerWidth() + tailSuggestionListXMod, this.getY() + tailSuggestionListYMod, data, callback, false);
 	    }
 	}else{
 	    //Add menu for picking new arrow value

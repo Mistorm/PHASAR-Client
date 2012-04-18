@@ -8,6 +8,7 @@ $(function() {
     $.mouseDownY;
     $.boxLastMousedown;
     $.boxLastMouseover;
+    $.callback = jQuery.Callbacks();
 	
 	
     $.newArrowValue = null;
