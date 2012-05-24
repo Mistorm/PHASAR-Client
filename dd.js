@@ -8,16 +8,16 @@ $(function() {
     $.mouseDownY;
     $.boxLastMousedown;
     $.boxLastMouseover;
-    $.callback = jQuery.Callbacks();
-	
-	
+    	
+    //Globals when extending the query.
     $.newArrowValue = null;
     $.newBoxValue = null;
 	
-    for (var i = 0; i < 1; i++){		
-	var box = jQuery.tree.newBox();
-	box.draw();
-    }
+    //Setup the initial state of the interface		
+    var box = jQuery.tree.newBox();
+    box.draw();
+    $(".box").click();
+    
 	
     $("#ajaxIndicator").hide();
 	
@@ -155,7 +155,7 @@ function drawQueryResult(data){
 	    result = result + start;
 	    result = result + "<div class=content>" + data.result[i].content + "</div>";
 	
-	    //Uncomment to add tripels to browsing
+	    //Uncomment to add tripels to the browsing vieuw
 	    //for(j in data.result[i].triples){
 	    //result = result + '<div class="triple">' + data.result[i].triples[j] + '</div>';
 	    //}
