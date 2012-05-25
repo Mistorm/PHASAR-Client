@@ -386,27 +386,45 @@ function Box(){
     
     this.drawSuggestionList = function(queryResult){
 	
+	var columnLength = 20;
+	
+	
+	var columnStart = '<div class="suggestionColumn">';
 	var start = '<div class="suggestion">';
 	var end = '</div>';
+	var columnEnd = '</div>'
 	
-	var result = "";
+	var result = '';
+	
+	var columns = new Array(columnStart);
 	
 	for (i in queryResult.suggestion){
-	    result = result + start;
+	    
+	    //Make sure each suggestion ends up in the proper column.
+	    var currentColumn = Math.floor(i / columnLength);
+	    //If the current column does not excist, we just filled the previous one.
+	    //that means we must close it with a div.
+	    if(!columns[currentColumn]){
+		columns[currentColumn - 1] = columns[currentColumn - 1] + columnEnd;
+		columns.push(columnStart);
+	    }
+	    
+	    result = start;
 	    result = result + "<div class=count>" + queryResult.suggestion[i].count + "</div>";
 	    result = result + "<div class=value>" + queryResult.suggestion[i].value + "</div>";
-	
-	    //Uncomment to add tripels to the browsing vieuw
-	    //for(j in data.result[i].triples){
-	    //result = result + '<div class="triple">' + data.result[i].triples[j] + '</div>';
-	    //}
 	    result = result + end;
+	    
+	    columns[currentColumn] = columns[currentColumn] + result;
 	}
 	
 	//Remove any previous results..
 	$("#result div").remove();
 	//And show the new ones
-	$("#result").append(result);
+	for(c in columns){
+	    $("#result").append(columns[c]);
+	    $(".suggestionColumn:last").offset({left: c * 210});
+	}
+	
     }
     
     //    this.getSuggestionMenu = function(){
