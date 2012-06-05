@@ -73,36 +73,10 @@ $(function() {
 	    }
 	}
     });
-    
-    //Code to make the tabs function.
-    $(".tab").click(function(event){
-	//Make the clicked tab active
-	$(".tab").removeClass("active");
-	$(event.target).addClass("active");
-	//Make the proper contentpane active
-	
-	$(".tabcontent").hide();
-	
-	var id = $(event.target).attr("id");
-	
-	switch (id){
-	    case 'suggestionsTab':
-		$("#suggestions").show();
-		break;
-	    case 'optionsTab':
-		$("#options").show();
-		break;
-	    case 'resultTab':
-		$("#result").show();
-		break;
-	    default:
-		$("#result").show();
-		break;
-	}
-    });
-    
+        
     $(".tabcontent").hide();
     $("#result").show();
+    
     
 });
 

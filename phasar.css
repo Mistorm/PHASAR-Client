@@ -70,6 +70,18 @@ img{
     margin-left: 1em;
 }
 
+#ajaxIndicator{
+    position: absolute;
+    height: auto;
+    width: 5%;
+    top: 40%;
+    left: 47.5%;
+}
+
+/*
+********** Style of the query field **********
+*/
+
 #query{
     display: block;
     height: 40%;
@@ -79,32 +91,9 @@ img{
     background-position:center;
 }
 
-
-.tab{
-    float: left;
-    padding: 5px;
-
-    background-color: #DEDEDE;
-    border-width: 1px;
-    border-color: #cccccc;
-    border-style: solid;
-
-    -moz-border-radius-topleft: 10px;
-    -moz-border-radius-topright: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.tab:hover{
-    border-bottom-color: #000000;
-    cursor: pointer;
-}
-
-.tab.active{
-    background-color: #ffffff;
-}
-
-
+/*
+********** Styles for the result field **********
+*/
 #result{
     position: absolute;
     display: block;
@@ -125,37 +114,28 @@ img{
     background-color: #efefef;
 }
 
-#result .content{
+#result .result .content{
     display: block;
     position: relative;
     margin-top:2px;
     margin-bottom:2px;
 }
 
-#result .triple{
-    display: inline;
-    margin-left: 10px;
-    background-color: #fafafa;
-}
-
-#ajaxIndicator{
-    position: absolute;
-    height: auto;
-    width: 5%;
-    top: 40%;
-    left: 47.5%;
-}
+/*
+********** Styles for the info suggestions (getting the posible values of the box) **********
+*/
 
 .suggestionColumn{
     position: absolute;
     width: 200px;
     height: 20em;
-    overflow: hidden;
+    /*overflow: hidden;*/
     margin-top: 10px;
     margin-right:10px;
 }
 
-.suggestion{
+.suggestion {
+    z-index: 4;
     height: 1em;
     width: auto;
     background-color: #FAFACA;
@@ -173,6 +153,10 @@ img{
     display: inline;
 }
 
+
+/*
+********** Styles related to the boxes themself **********
+*/
 .box{
     background-color: #FAFACA;
     position: absolute; 
@@ -253,10 +237,10 @@ img{
     height: 15px;
 }
 
-.draggable{
-    border-style: none;
-}
 
+/*
+********** Styles for the arrows between the boxes **********
+*/
 .arrow{
     position: absolute;
     border: 0px solid black;
@@ -296,6 +280,9 @@ img{
     font-size: 12px;
 }
 
+/*
+********** Styles for the suggestionmenu for relator values  **********
+*/
 #suggestionList{
     position: absolute;
     border:  1px solid black;
@@ -342,18 +329,4 @@ img{
 
 #suggestionList .suggestion .value{
     width: auto;
-}
-
-#footer{
-    background-color: #cccccc;
-    height: 50px;
-    width: 100%;
-}
-
-#footer .item{
-    float: left;
-    height: 40px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
