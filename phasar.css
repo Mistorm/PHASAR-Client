@@ -84,8 +84,10 @@ img{
 
 #query{
     display: block;
-    height: 40%;
+    height: 90%;
     width: 100%;
+    top: 10%;
+    bottom: 22em;
     background-color: #ffffff;
     background-repeat: no-repeat;
     background-position:center;
@@ -238,6 +240,10 @@ img{
 }
 
 
+#line{
+    position: absolute;
+}
+
 /*
 ********** Styles for the arrows between the boxes **********
 */
@@ -286,7 +292,7 @@ img{
 #suggestionList{
     position: absolute;
     border:  1px solid black;
-    background-color: #cccccc;
+    background-color: #FAFACA;
     min-width: 150px;
     min-height: 50px;
     width: auto;
@@ -316,7 +322,7 @@ img{
 }
 
 #suggestionList .suggestion:hover{
-    background-color: #eeeeee;
+    background-color: #FFFFFF;
 }
 
 #suggestionList .suggestion .count, #suggestionList .suggestion .value{

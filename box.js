@@ -98,15 +98,72 @@ function Box(){
     }
 	
     this.drawLineTo = function(event){
-	//TODO: Draw a line from the center of the box the the event's X & Y position.
-	$("#feedback").html("x: " + event.pageX +" y: " + event.pageY);
+	//$("#feedback").html("x: " + event.pageX +" y: " + event.pageY);
+	
+	//Remove any previous drawn line exists
+	$("#line").remove();
+	
+	var startTop =  this.y;
+	var startLeft = this.x;
+	var endTop = event.pageY;
+	var endLeft = event.pageX; 
+	var canvasHeight;
+	var canvasWidth;
+	var lineStartX = 0;
+	var lineStartY = 0;
+	var lineEndX;
+	var lineEndY;
+	
+	//Modify startLeft and startTop so the line is started behind the box.
+	startTop = startTop + ($("#b" + this.id).outerHeight() / 2);
+	startLeft = startLeft + ($("#b" + this.id).outerWidth() / 2);
+	
+	if(startTop > endTop){
+	    canvasHeight = startTop - endTop;
+	    startTop = endTop;
+	    endTop = startTop + canvasHeight;
+	    lineStartY = canvasHeight;
+	    lineEndY = 0;
+	}else{
+	    canvasHeight = endTop - startTop;
+	    lineEndY = canvasHeight;
+	}
+	
+	if(startLeft > endLeft){
+	    canvasWidth = startLeft - endLeft;
+	    startLeft = endLeft;
+	    endLeft = startLeft + canvasWidth;
+	    lineStartX = canvasWidth;
+	    lineEndX = 0;
+	}else{
+	    canvasWidth = endLeft - startLeft;
+	    lineEndX = canvasWidth;
+	}
+	
+	//Canvas HTML, size in done in tag tp prevent bugs
+	var html = '<canvas id="line" width="' + canvasWidth + '" height="' + canvasHeight + '"></canvas>';
+	
+	//Append and position the canvas
+	$("#query").append(html);
+	$("#line").css("left", startLeft);
+	$("#line").css("top", startTop);
+	//$("#line").css("background-color", "#ff00ff");
+	
+	var canvas = $("#line")[0];
+	if (canvas.getContext){  
+	    var ctx = canvas.getContext('2d');
+	    ctx.beginPath();
+	    ctx.moveTo(lineStartX, lineStartY);
+	    //ctx.lineTo(lineEndX, lineEndY);
+	    ctx.quadraticCurveTo(lineEndX, lineStartY, lineEndX, lineEndY);  
+	    ctx.stroke();
+	}
     }
       
     this.extend = function(direction){
-	//TODO: extend the box with an empty relator and box to direction
 	$("#query").off("mousemove", this.drawLineTo(event));
-	alert(direction);
-	    				
+	$("#line").remove();
+	    
 	//Create a new box for the tail, using the position of the head box and the tail offset
 	var newBox = jQuery.tree.newBox();
     				
@@ -128,6 +185,15 @@ function Box(){
 	
 	//Draw the box and arrow
 	newBox.draw();
+	
+	//Update and reposition
+	var box = $("#b" + newBox.getId() + ":first");
+	newBox.setX(newBox.getX() - box.outerWidth() / 2);
+	newBox.setY(newBox.getY() - box.outerHeight() / 2);
+	
+	box.css("left", newBox.getX());
+	box.css("top", newBox.getY());
+	
 	arrow.draw();
 	arrow.refresh();
     }
@@ -190,7 +256,7 @@ function Box(){
 	    $("#result").append(columns[c]);
 	    $(".suggestionColumn:last").offset({
 		left: c * 210
-		});
+	    });
 	}
 	
 	$(".suggestion").draggable();
@@ -210,7 +276,7 @@ function Box(){
 							
 	    //Find the id of the box in question, the box, and the tree
 	    var id = $(".draggable")[0].id;
-	    var id = new Number (id.replace("b", ""));
+	    id = new Number (id.replace("b", ""));
 	    var box  =  jQuery.tree.getBox(id);
 							
 	    //Update the X and Y of the moved box
