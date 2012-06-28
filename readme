@@ -1,0 +1,50 @@
+### ReadMe for the PHASAR Dungeons & Dragons interface ###
+
+INTRO:
+The interface is based on the input of professor C. Koster and writen by Bart van Zeeland during his internship at the Radboud university. The goal of the interface was to create an userinterface for PHASAR useable on a tablet computer (and anywhere else). The interface is used by swipes and touches to displayed boxes. These boxes are used to create the dependency tree that is send to the mediator when the query is send. During the creation of the interface it became clear that HTMl, CSS and Javascript could be used but didn't provide the proper tooling so a custom swipe solution was made. Further into the project, new interface design elements where added, possibly conflicting with the excisting swipe detection. Currently, the interface has a number of bugs and know issues that prevent it from being used to demonstrate PHASAR. 
+
+
+USEAGE:
+	Starting out:
+When the interface is loaded, it show a single box with an text field. The user can start building the tree by typing in the box, clicking somewhere else in the interface to close the text entry and adding more boxes. The query can be send to the server by pressing the ENTER key on the keyboard or pressing the submit button in the interface.
+	Adding:
+By make a swipe for the HEAD or TAIL tab (clicking on the HEAD or TAIL tab of a box, keeping the button pressed down, moving the mouse to the desired location and releasing the button), a new empty box can be added to the tree. A box can also be added by swiping to HEAD or TAIL direction from the box itself alltough this is results in poor placement of the new box.
+	Modifying:
+By clicking on a bow, a text field apears and the content of the box can be changed or removed. The text field can be closed by clicking outside the box. The relator value between two boxes can also be changed by clicking in the textfield. A menu will apear, proving the user with posible values for the relation between the two boxes. The suggestions are based on feedback from the mediator.
+	Removing:
+A box can be removed by making a diagonal swipe accros the box. A box can only be removed when there is a maximum of one other box attached to it by a relator.
+	Moving:
+By dragging around the MOVE tab of a box or make a swipe up, starting in the box itself, a box can be moved across the interface.
+	Getting suggestions:
+The interface can use the mediator to get the posible values (to a current maximum of 1000) of a box. This is done by make a down swipe from either the box or the INFO tab of the specific box. The lower side of the interface will display a bussy indicator and fill the lower part of the interface with the suggestions and the number of hits they generated. The user can drag and drop a value from this list to the desired box. If the list is too big to fit, a scrollbar is added.
+
+
+GLOBAL ARCHITECTURE:
+The interface consist of one HTML file and a few Javascript files, and makes heavy use of the jQuery and jQuery UI framework. The Javascript files are written in a object oriented way and contain the following fuctionality:
+
+- dd.js
+The starting point of the interface, creating the first box and setting up the busy indicator and keyboard functionality. Also plays an import role in registering interface events so swipes can be detected.
+
+- box.js
+Contains all the box related functionality, including adding (and drawing) new boxes, moving, deleting, modifying and kicking of the creation of the suggestionlist. It also keep the data in tree.js up to date.
+
+- arrow.js
+Contains all arrow related functionality, slighty less complex because arrows don't support swipes.
+
+- suggestionlist.js
+This file is used by arrow.js to show all the posible values of the relator (arrow) between two boxes. It generates this menu by sending a special query to the server using data from tree.js.
+
+- suggestionmenu.js
+The fuctionality is simulair to that of suggestionlist, except this file is used by box.js and generates the list of suggestions in the lower part of the interface.
+
+- tree.js
+This object acts as an internal bookeeper, keeping track of all the boxes and the relationships beween them. It does so, so it can create the JSON formatted query necessary to get suggestions and search results.  
+
+
+CAVEAT:
+- The interface is know to work under Chromium (open source build of Google chrome) due to webkit specific code. This is done because the target platform (a tablet) usualy only has a webkit based browser and testing in different browsers would take a lot of time.
+
+
+KNOW ISSUES:
+- The interface doesn't respond well the more then one suggestion menu for arrow values open at the same time.
+- Swipes are sometimes reconised when they should be. When adding a new box using the HEAD or TAIL tab, for example.
